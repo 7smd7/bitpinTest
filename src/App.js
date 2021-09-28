@@ -6,7 +6,8 @@ import { getCookie ,setCookie } from './service/cookie';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect,
 } from "react-router-dom";
 
 export default function App() {
@@ -19,6 +20,9 @@ export default function App() {
           <Switch>
             <Route path="/markets/">
               <Markets/>
+            </Route>
+            <Route path="/">
+              <Redirect to="/markets/" />;
             </Route>
           </Switch>  
         </Router>

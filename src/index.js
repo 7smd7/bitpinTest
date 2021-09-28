@@ -6,7 +6,7 @@ import App from './App';
 import theme from './theme';
 
 ReactDOM.render(
-  <div dir="rtl">
+  <div dir="rtl" >
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <App />

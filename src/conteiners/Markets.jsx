@@ -311,7 +311,7 @@ export default function Markets() {
           <Market/>
         </Route>
         <Route exact path={`${match.path}`}>
-          <Paper sx={{ width: "100%", mb: 2 }}>
+          <Paper sx={{ width: "100%", mb: 2 ,p:5}}>
           <EnhancedTableToolbar filter={filter} setFilter={setFilter} />
           <TableContainer>
             <Table
@@ -362,7 +362,7 @@ export default function Markets() {
                           padding="none"
                           
                         >
-                          <a href={`${row.code}`} > {row.name} </a>
+                          <a href={`/markets/${row.code}`} > {row.name} </a>
                         </TableCell>
                         <TableCell align="center">{row.price}</TableCell>
                         <TableCell align="center">{`%${row.change}`}</TableCell>

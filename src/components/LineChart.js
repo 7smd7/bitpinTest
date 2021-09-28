@@ -40,7 +40,7 @@ class LineChart extends Component {
 			data: [{
 				type: "line",
 				xValueType: "dateTime",
-				toolTipContent: "{x*100}: {y}",
+				toolTipContent: "{x*100} | {y}",
 				dataPoints: chart
 			}]
 		}
