@@ -130,7 +130,11 @@ EnhancedTableHead.propTypes = {
 export default function Market() {
   let { marketId } = useParams();
   const [order, setOrder] = React.useState("asc");
-  const [data, setData] = React.useState({id:1,title_fa:""});
+  const [data, setData] = React.useState({
+    id:1,
+    title_fa:"", 
+    chart: [{price: '44027', created_at: 1632721026.546}]
+  });
   const [orderBy, setOrderBy] = React.useState("markets");
   const [rows, setRows] = React.useState([]);
   const [page, setPage] = React.useState(0);
@@ -140,11 +144,16 @@ export default function Market() {
   React.useEffect(() => {
     const fetchData = async () => {
       const resultMarkets = await FetchMarkets();
-      const resultCharts = await FetchCharts(id);
-      let newData = resultMarkets.data.results[marketId]
+      const resultChart = await FetchCharts(marketId);
+      let newData = {};
+      for (let i of resultMarkets.data.results){
+        if (i.code == marketId)
+          newData = i;
+      }
 
-      setData();
-      setRows(RandomData(marketId,4)  );
+      newData.chart=resultChart.chart;
+      setData(newData);
+      setRows(RandomData(newData.price,4)  );
     };
     fetchData();
   }, []);
@@ -178,7 +187,6 @@ export default function Market() {
             id="tableTitle"
             component="div"
           >
-            {console.log(data)}
             سفارش‌های {data.title_fa}
           </Typography>
           <TableContainer>
@@ -217,9 +225,9 @@ export default function Market() {
                           {row.date.toLocaleString()}
                         </TableCell>
                         <TableCell align="center">{row.side}</TableCell>
-                        <TableCell align="center">{row.price}</TableCell>
+                        <TableCell align="center">{`${row.price} ${data.currency2.title_fa}`}</TableCell>
                         <TableCell align="center">{row.amount}</TableCell>
-                        <TableCell align="center">{row.cost}</TableCell>
+                        <TableCell align="center">{`${row.cost} ${data.currency2.title_fa}`}</TableCell>
                       </TableRow>
                     );
                   })}

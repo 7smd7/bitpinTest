@@ -32,9 +32,9 @@ import {
   useParams,
 } from "react-router-dom";
 
-function createData(id, name, price, change, max, min) {
+function createData(code, name, price, change, max, min) {
   return {
-    id,
+    code,
     name,
     price,
     change,
@@ -217,7 +217,7 @@ export default function Markets() {
           if (selected.includes(i.title_fa))
             newRows.push(
               createData(
-                i.id,
+                i.code,
                 i.title_fa,
                 i.price,
                 i.price_info.change,
@@ -229,7 +229,7 @@ export default function Markets() {
           if (selected.includes(i.title_fa))
             newRows.push(
               createData(
-                i.id,
+                i.code,
                 i.title_fa,
                 i.price,
                 i.price_info.change,
@@ -243,7 +243,7 @@ export default function Markets() {
         if (!selected.includes(i.title_fa) && i.currency2.title == filter) {
           newRows.push(
             createData(
-              i.id,
+              i.code,
               i.title_fa,
               i.price,
               i.price_info.change,
@@ -362,7 +362,7 @@ export default function Markets() {
                           padding="none"
                           
                         >
-                          <a href={`${row.id}`} > {row.name} </a>
+                          <a href={`${row.code}`} > {row.name} </a>
                         </TableCell>
                         <TableCell align="center">{row.price}</TableCell>
                         <TableCell align="center">{`%${row.change}`}</TableCell>
