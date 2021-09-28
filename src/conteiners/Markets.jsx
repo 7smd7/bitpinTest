@@ -32,9 +32,9 @@ import {
   useParams,
 } from "react-router-dom";
 
-function createData(code, name, price, change, max, min) {
+function createData(id, name, price, change, max, min) {
   return {
-    code,
+    id,
     name,
     price,
     change,
@@ -124,7 +124,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="center"
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -217,7 +217,7 @@ export default function Markets() {
           if (selected.includes(i.title_fa))
             newRows.push(
               createData(
-                i.code,
+                i.id,
                 i.title_fa,
                 i.price,
                 i.price_info.change,
@@ -229,7 +229,7 @@ export default function Markets() {
           if (selected.includes(i.title_fa))
             newRows.push(
               createData(
-                i.code,
+                i.id,
                 i.title_fa,
                 i.price,
                 i.price_info.change,
@@ -243,7 +243,7 @@ export default function Markets() {
         if (!selected.includes(i.title_fa) && i.currency2.title == filter) {
           newRows.push(
             createData(
-              i.code,
+              i.id,
               i.title_fa,
               i.price,
               i.price_info.change,
@@ -344,6 +344,7 @@ export default function Markets() {
                       >
                         <TableCell
                           padding="checkbox"
+                          align="center"
                           onClick={(event) => handleFav(event, row.name)}
                         >
                           <Checkbox
@@ -354,18 +355,19 @@ export default function Markets() {
                           />
                         </TableCell>
                         <TableCell
+                          align="center"
                           component="th"
                           id={labelId}
                           scope="row"
                           padding="none"
                           
                         >
-                          <a href={`${row.code}`} > {row.name} </a>
+                          <a href={`${row.id}`} > {row.name} </a>
                         </TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.change}</TableCell>
-                        <TableCell align="right">{row.max}</TableCell>
-                        <TableCell align="right">{row.min}</TableCell>
+                        <TableCell align="center">{row.price}</TableCell>
+                        <TableCell align="center">{`%${row.change}`}</TableCell>
+                        <TableCell align="center">{row.max}</TableCell>
+                        <TableCell align="center">{row.min}</TableCell>
                       </TableRow>
                     );
                   })}

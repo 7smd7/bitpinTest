@@ -13,7 +13,7 @@ export default function App() {
   if (getCookie("fav")=="")
     setCookie("fav", JSON.stringify([]),9999999999);
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Box sx={{ my: 5 }}>
         <Router>
           <Switch>

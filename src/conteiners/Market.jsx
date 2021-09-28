@@ -15,7 +15,10 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import RandomData from './RandomData.jsx';
+import RandomData from '../sample/RandomData.jsx';
+import FetchMarkets from "../service/FetchMarkets.jsx";
+import FetchCharts from "../service/FetchCharts"
+import LineChart from "../components/LineChart.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -92,7 +95,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="center"
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -127,7 +130,7 @@ EnhancedTableHead.propTypes = {
 export default function Market() {
   let { marketId } = useParams();
   const [order, setOrder] = React.useState("asc");
-  const [data, setData] = React.useState(RandomData())
+  const [data, setData] = React.useState({id:1,title_fa:""});
   const [orderBy, setOrderBy] = React.useState("markets");
   const [rows, setRows] = React.useState([]);
   const [page, setPage] = React.useState(0);
@@ -136,14 +139,12 @@ export default function Market() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      let newRows = [];
-      for (let i of data) {
-        if (i.code == marketId) {
-          newRows.push(i);
-        }
-      }
-      console.log(newRows)
-      setRows(newRows);
+      const resultMarkets = await FetchMarkets();
+      const resultCharts = await FetchCharts(id);
+      let newData = resultMarkets.data.results[marketId]
+
+      setData();
+      setRows(RandomData(marketId,4)  );
     };
     fetchData();
   }, []);
@@ -177,7 +178,8 @@ export default function Market() {
             id="tableTitle"
             component="div"
           >
-            سفارش‌های {marketId.replace("_","/")}
+            {console.log(data)}
+            سفارش‌های {data.title_fa}
           </Typography>
           <TableContainer>
             <Table
@@ -202,22 +204,22 @@ export default function Market() {
                       <TableRow
                         hover
                         tabIndex={-1}
-                        key={row.code}
+                        key={row.id}
                       >
                         <TableCell
+                          align="center"
                           component="th"
                           id={labelId}
                           scope="row"
                           padding="none"
                           
                         >
-                          {row.date.toString()}
+                          {row.date.toLocaleString()}
                         </TableCell>
-                        <TableCell align="right">{row.side}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.amount}</TableCell>
-                        <TableCell align="right">{row.cost}</TableCell>
-                        {console.log(row)}
+                        <TableCell align="center">{row.side}</TableCell>
+                        <TableCell align="center">{row.price}</TableCell>
+                        <TableCell align="center">{row.amount}</TableCell>
+                        <TableCell align="center">{row.cost}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -242,6 +244,9 @@ export default function Market() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+        </Paper>
+        <Paper sx={{ width: "100%", my:5, p:5 }}>
+          <LineChart data = {data}/>
         </Paper>
     </Box>
   );
