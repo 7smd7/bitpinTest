@@ -180,7 +180,7 @@ export default function Market() {
 
   return (
     <Box sx={{ width: "100%" }}>
-          <Paper sx={{ width: "100%", mb: 2 }}>
+          <Paper sx={{ width: "100%", mb: 2 , p: 3}}>
           <Typography
             sx={{ flex: "1 1 100%", my: 2}}
             variant="h6"
